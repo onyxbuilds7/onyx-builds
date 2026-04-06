@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloompath — Grow at Your Own Pace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f3ec;
+      --warm-white: #fdfaf5;
+      --sage: #7a9e7e;
+      --sage-light: #c8dcc9;
+      --sage-dark: #4a6e4e;
+      --terracotta: #c1623f;
+      --terracotta-light: #f0c4b0;
+      --brown: #3d2b1f;
+      --brown-mid: #6b4c3b;
+      --tan: #d4b896;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--brown);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 60px;
+      background: var(--warm-white);
+      border-bottom: 1px solid rgba(61,43,31,0.08);
+      position: relative;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--brown);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--brown-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--sage-dark); }
+
+    .nav-cta {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 11px 28px;
+      background: var(--sage);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.15s;
+    }
+
+    .nav-cta:hover { background: var(--sage-dark); transform: translateY(-1px); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--brown);
+      border-radius: 2px;
+    }
+
+    .hero {
+      padding: 80px 60px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 7px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge-dot { width: 6px; height: 6px; background: var(--sage-dark); border-radius: 50%; }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 600;
+      line-height: 1.08;
+      color: var(--brown);
+      margin-bottom: 24px;
+    }
+
+    h1 em { font-style: italic; color: var(--terracotta); }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--brown-mid);
+      max-width: 440px;
+      margin-bottom: 44px;
+    }
+
+    .cta-group { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+    .cta-main {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 16px 40px;
+      background: var(--terracotta);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+      box-shadow: 0 4px 20px rgba(193,98,63,0.25);
+    }
+
+    .cta-main:hover { background: #a34e30; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(193,98,63,0.35); }
+
+    .cta-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--brown-mid);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .cta-link:hover { color: var(--sage-dark); }
+
+    .hero-right { display: flex; justify-content: center; }
+
+    .hero-visual {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4/5;
+      background: linear-gradient(145deg, var(--sage-light) 0%, var(--tan) 100%);
+      border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .visual-inner {
+      background: var(--warm-white);
+      border-radius: 24px;
+      padding: 28px 24px;
+      width: 72%;
+      box-shadow: 0 12px 40px rgba(61,43,31,0.12);
+    }
+
+    .visual-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--terracotta-light);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--terracotta);
+    }
+
+    .visual-label { font-size: 11px; font-weight: 600; color: var(--sage-dark); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+    .visual-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--brown); margin-bottom: 14px; line-height: 1.2; }
+
+    .visual-bar-wrap { margin-bottom: 10px; }
+    .visual-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--brown-mid); margin-bottom: 5px; }
+    .visual-bar-track { height: 6px; background: var(--cream); border-radius: 100px; overflow: hidden; }
+    .visual-bar-fill { height: 100%; border-radius: 100px; background: var(--sage); }
+
+    .visual-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 100px;
+      margin-top: 12px;
+    }
+
+    .wave-divider { width: 100%; overflow: hidden; line-height: 0; margin-top: 60px; }
+    .wave-divider svg { display: block; width: 100%; }
+
+    .cards-section { background: var(--warm-white); padding: 72px 60px 88px; }
+
+    .section-header { text-align: center; margin-bottom: 56px; }
+
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 600;
+      color: var(--brown);
+      margin-bottom: 12px;
+    }
+
+    .section-header p { font-size: 15px; font-weight: 300; color: var(--brown-mid); max-width: 420px; margin: 0 auto; line-height: 1.7; }
+
+    .cards { display: flex; gap: 24px; max-width: 1100px; margin: 0 auto; }
+
+    .card {
+      flex: 1;
+      background: var(--cream);
+      border-radius: 24px;
+      padding: 40px 32px;
+      border: 1px solid rgba(61,43,31,0.07);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 24px 24px 0 0; }
+    .card:nth-child(1)::before { background: var(--sage); }
+    .card:nth-child(2)::before { background: var(--terracotta); }
+    .card:nth-child(3)::before { background: var(--tan); }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(61,43,31,0.1); }
+
+    .card-icon-wrap { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+    .card:nth-child(1) .card-icon-wrap { background: var(--sage-light); }
+    .card:nth-child(2) .card-icon-wrap { background: var(--terracotta-light); }
+    .card:nth-child(3) .card-icon-wrap { background: rgba(212,184,150,0.3); }
+
+    .card h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--brown); margin-bottom: 12px; line-height: 1.15; }
+    .card p { font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--brown-mid); margin-bottom: 28px; }
+
+    .card-link { font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+    .card:nth-child(1) .card-link { color: var(--sage-dark); }
+    .card:nth-child(2) .card-link { color: var(--terracotta); }
+    .card:nth-child(3) .card-link { color: var(--brown-mid); }
+    .card:hover .card-link { gap: 10px; }
+
+    footer { background: var(--brown); padding: 36px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    footer .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--cream); }
+    footer p { font-size: 12px; color: rgba(247,243,236,0.4); }
+    footer .footer-links { display: flex; gap: 24px; list-style: none; }
+    footer .footer-links a { font-size: 12px; color: rgba(247,243,236,0.5); text-decoration: none; transition: color 0.2s; }
+    footer .footer-links a:hover { color: var(--cream); }
+
+    @media (max-width: 768px) {
+      nav { padding: 18px 24px; }
+      .hamburger { display: flex; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 65px; left: 0; right: 0; background: var(--warm-white); padding: 16px 24px 24px; border-bottom: 1px solid rgba(61,43,31,0.08); gap: 20px; z-index: 100; }
+      .nav-links.open { display: flex; }
+      .nav-cta { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 56px 24px 0; gap: 40px; }
+      .hero-right { order: -1; }
+      .hero-visual { max-width: 300px; margin: 0 auto; aspect-ratio: 1; border-radius: 50%; }
+      .cta-main { width: 100%; text-align: center; }
+      .wave-divider { margin-top: 40px; }
+      .cards-section { padding: 56px 24px 72px; }
+      .cards { flex-direction: column; gap: 16px; }
+      footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      footer .footer-links { flex-wrap: wrap; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M11 2 C11 2 4 6 4 13 C4 17.4 7.1 20 11 20 C14.9 20 18 17.4 18 13 C18 6 11 2 11 2Z" fill="#7a9e7e" opacity="0.3"/>
+        <path d="M11 4 C11 4 6 8 6 13 C6 16.3 8.2 18 11 18" stroke="#4a6e4e" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M11 10 L15 7" stroke="#7a9e7e" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M11 14 L16 12" stroke="#7a9e7e" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      Bloompath
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#">Learn</a></li>
+      <li><a href="#">Paths</a></li>
+      <li><a href="#">Community</a></li>
+      <li><a href="#">Stories</a></li>
+    </ul>
+    <button class="nav-cta">Start for free</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="hero-badge-dot"></span> Thoughtful learning, finally</div>
+      <h1>Grow into the<br>skills you <em>actually</em><br>want.</h1>
+      <p class="hero-sub">Bloompath is a calm, guided space to learn creative and professional skills — without the overwhelm, the hustle guilt, or the 47-hour course dumps.</p>
+      <div class="cta-group">
+        <button class="cta-main">Explore learning paths</button>
+        <a href="#" class="cta-link">See student stories →</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="visual-inner">
+          <div class="visual-avatar">S</div>
+          <div class="visual-label">Your current path</div>
+          <div class="visual-title">Writing for the Web</div>
+          <div class="visual-bar-wrap">
+            <div class="visual-bar-label"><span>Week 3 of 6</span><span>58%</span></div>
+            <div class="visual-bar-track"><div class="visual-bar-fill" style="width:58%"></div></div>
+          </div>
+          <div class="visual-bar-wrap">
+            <div class="visual-bar-label"><span>Exercises done</span><span>11/18</span></div>
+            <div class="visual-bar-track"><div class="visual-bar-fill" style="width:61%; background: #c1623f;"></div></div>
+          </div>
+          <div class="visual-chip">
+            <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#4a6e4e"/></svg>
+            On track
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#fdfaf5"/>
+    </svg>
+  </div>
+
+  <section class="cards-section">
+    <div class="section-header">
+      <h2>How Bloompath works</h2>
+      <p>A gentler, more intentional way to build real skills.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M5 7 C5 7 9 4 13 4 C17 4 21 7 21 13 C21 18 17 22 13 22 C9 22 5 18 5 13" stroke="#4a6e4e" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M13 8 V13 L16 16" stroke="#4a6e4e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Go at your own pace</h3>
+        <p>No deadlines, no cohorts, no pressure. Bloompath adapts to your schedule — whether you have 20 minutes or 2 hours.</p>
+        <a href="#" class="card-link">Browse paths →</a>
+      </div>
+      <div class="card">
+        <div class="card-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="10" r="4.5" stroke="#c1623f" stroke-width="1.5"/>
+            <path d="M5 22 C5 18 8.1 16 13 16 C17.9 16 21 18 21 22" stroke="#c1623f" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M17 6 L19 4 M19 4 L21 6 M19 4 V8" stroke="#c1623f" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Learn from real makers</h3>
+        <p>Every path is taught by someone actively doing the work — writers, designers, builders who share their honest process.</p>
+        <a href="#" class="card-link">Meet the instructors →</a>
+      </div>
+      <div class="card">
+        <div class="card-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="4" y="6" width="18" height="14" rx="3" stroke="#6b4c3b" stroke-width="1.5"/>
+            <path d="M9 11 H17 M9 15 H14" stroke="#6b4c3b" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Build a real portfolio</h3>
+        <p>Every path ends with something you made. A piece of writing. A design. A project. Not just a certificate — actual work.</p>
+        <a href="#" class="card-link">See student work →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Bloompath</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Teach with us</a></li>
+    </ul>
+    <p>© 2026 Bloompath. Grow gently.</p>
+  </footer>
+
+</body>
+</html>
