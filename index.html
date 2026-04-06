@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONYX — Pages That Convert</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #080808;
+      --white: #f4f2ee;
+      --mid: #888;
+      --border: rgba(244,242,238,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Epilogue', sans-serif;
+      min-height: 100vh;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* CURSOR */
+    .cursor {
+      width: 8px;
+      height: 8px;
+      background: var(--white);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor.hover {
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: 1px solid var(--white);
+      mix-blend-mode: difference;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 56px;
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Syne Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      font-family: 'Syne Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--white);
+      border: none;
+      padding: 12px 28px;
+      cursor: none;
+      transition: opacity 0.2s;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--white);
+      transition: all 0.3s;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 56px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(160px, 20vw, 280px);
+      font-weight: 800;
+      color: rgba(244,242,238,0.03);
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-top {
+      position: absolute;
+      top: 120px;
+      right: 56px;
+      text-align: right;
+    }
+
+    .hero-tag {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 8px;
+    }
+
+    .hero-counter {
+      font-family: 'Syne', sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+
+    .hero-counter-label {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 6px;
+    }
+
+    .hero-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .hero-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(56px, 7.5vw, 112px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.1s forwards;
+    }
+
+    .hero-headline .line2 {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(244,242,238,0.4);
+    }
+
+    .hero-right-block {
+      flex-shrink: 0;
+      max-width: 320px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(244,242,238,0.5);
+      margin-bottom: 36px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Syne Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--white);
+      border: none;
+      padding: 16px 36px;
+      cursor: none;
+      transition: opacity 0.2s;
+    }
+
+    .hero-cta:hover { opacity: 0.85; }
+
+    .hero-cta-arrow {
+      width: 16px;
+      height: 1px;
+      background: var(--black);
+      position: relative;
+      transition: width 0.2s;
+    }
+
+    .hero-cta-arrow::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      border-right: 1px solid var(--black);
+      border-top: 1px solid var(--black);
+      transform: rotate(45deg);
+    }
+
+    .hero-cta:hover .hero-cta-arrow { width: 24px; }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      overflow: hidden;
+      padding: 18px 0;
+      margin: 0;
+    }
+
+    .marquee-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 22s linear infinite;
+      font-family: 'Syne Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .marquee-dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: var(--white);
+      border-radius: 50%;
+      margin: 0 28px;
+      vertical-align: middle;
+      opacity: 0.3;
+    }
+
+    /* WORK SECTION */
+    .section {
+      padding: 120px 56px;
+    }
+
+    .section-label {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 0.5px;
+      background: var(--mid);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .work-item {
+      position: relative;
+      aspect-ratio: 4/3;
+      background: #111;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    .work-item:nth-child(1) { grid-row: span 2; aspect-ratio: auto; min-height: 600px; }
+
+    .work-item-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 36px;
+      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .work-item:hover .work-item-inner { opacity: 1; }
+
+    .work-item-bg {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.6s ease;
+    }
+
+    .work-item:hover .work-item-bg { transform: scale(1.04); }
+
+    /* Fake page previews using CSS */
+    .work-item:nth-child(1) .work-item-bg {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    }
+
+    .work-item:nth-child(1) .work-item-bg::before {
+      content: 'APEX\AACADEMY';
+      white-space: pre;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      color: rgba(200,169,110,0.15);
+      text-align: center;
+      letter-spacing: -0.02em;
+    }
+
+    .work-item:nth-child(1) .work-item-bg::after {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 56px;
+      right: 56px;
+      height: 0.5px;
+      background: rgba(200,169,110,0.15);
+    }
+
+    .work-item:nth-child(2) .work-item-bg {
+      background: #f5f2ed;
+    }
+
+    .work-item:nth-child(2) .work-item-bg::before {
+      content: 'RAWSKILL';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      color: rgba(13,13,13,0.12);
+      letter-spacing: 0.04em;
+    }
+
+    .work-item:nth-child(3) .work-item-bg {
+      background: linear-gradient(145deg, #c8dcc9 0%, #d4b896 100%);
+    }
+
+    .work-item:nth-child(3) .work-item-bg::before {
+      content: 'Bloompath';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: rgba(61,43,31,0.2);
+    }
+
+    .work-num {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--mid);
+      margin-bottom: 8px;
+    }
+
+    .work-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .work-type {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(244,242,238,0.4);
+    }
+
+    /* SERVICES */
+    .services-section {
+      padding: 120px 56px;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 80px;
+      gap: 40px;
+    }
+
+    .services-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(40px, 5vw, 68px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      max-width: 520px;
+    }
+
+    .services-headline em {
+      font-style: italic;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(244,242,238,0.35);
+    }
+
+    .services-desc {
+      max-width: 300px;
+      padding-top: 8px;
+    }
+
+    .services-desc p {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(244,242,238,0.45);
+      margin-bottom: 32px;
+    }
+
+    .services-link {
+      font-family: 'Syne Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border-bottom: 0.5px solid rgba(244,242,238,0.3);
+      padding-bottom: 3px;
+      transition: border-color 0.2s;
+    }
+
+    .services-link:hover { border-color: var(--white); }
+
+    .services-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .service-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0;
+      border-top: 0.5px solid var(--border);
+      cursor: none;
+      transition: padding-left 0.3s ease;
+      gap: 24px;
+    }
+
+    .service-row:last-child { border-bottom: 0.5px solid var(--border); }
+
+    .service-row:hover { padding-left: 16px; }
+
+    .service-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .service-num {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--mid);
+      min-width: 24px;
+    }
+
+    .service-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+
+    .service-right {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .service-price {
+      font-family: 'Syne Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: var(--mid);
+      white-space: nowrap;
+    }
+
+    .service-arrow {
+      width: 32px;
+      height: 1px;
+      background: rgba(244,242,238,0.2);
+      position: relative;
+      transition: width 0.25s, background 0.25s;
+    }
+
+    .service-arrow::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      border-right: 1px solid rgba(244,242,238,0.2);
+      border-top: 1px solid rgba(244,242,238,0.2);
+      transform: rotate(45deg);
+      transition: border-color 0.25s;
+    }
+
+    .service-row:hover .service-arrow {
+      width: 48px;
+      background: var(--white);
+    }
+
+    .service-row:hover .service-arrow::after {
+      border-color: var(--white);
+    }
+
+    /* PROCESS */
+    .process-section {
+      padding: 120px 56px;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 64px;
+    }
+
+    .process-item {
+      padding: 48px 36px;
+      border: 0.5px solid var(--border);
+      transition: background 0.25s;
+    }
+
+    .process-item:hover { background: rgba(244,242,238,0.03); }
+
+    .process-step {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 40px;
+    }
+
+    .process-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .process-desc {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(244,242,238,0.4);
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      padding: 160px 56px;
+      border-top: 0.5px solid var(--border);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(244,242,238,0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(48px, 6vw, 96px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .cta-headline span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(244,242,238,0.25);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'Syne Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--white);
+      border: none;
+      padding: 20px 52px;
+      cursor: none;
+      position: relative;
+      transition: opacity 0.2s;
+    }
+
+    .cta-btn:hover { opacity: 0.88; }
+
+    /* FOOTER */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 36px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--white);
+    }
+
+    footer p {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+
+      .hero { padding: 0 24px 64px; }
+      .hero-top { right: 24px; top: 100px; }
+      .hero-counter { font-size: 48px; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 32px; }
+      .hero-right-block { max-width: 100%; }
+
+      .work-grid { grid-template-columns: 1fr; }
+      .work-item:nth-child(1) { min-height: 360px; }
+      .work-item { aspect-ratio: 4/3; }
+
+      .section, .services-section, .process-section { padding: 80px 24px; }
+
+      .services-header { flex-direction: column; }
+      .services-desc { max-width: 100%; }
+
+      .process-grid { grid-template-columns: 1fr 1fr; }
+
+      .cta-section { padding: 100px 24px; }
+
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-links { flex-wrap: wrap; gap: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .process-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+
+  <nav>
+    <div class="nav-logo">ONYX</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+      </ul>
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get a page</button>
+    </div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-text">ONYX</div>
+
+    <div class="hero-top">
+      <div class="hero-tag">Pages delivered</div>
+      <div class="hero-counter" id="counter">0</div>
+      <div class="hero-counter-label">And counting</div>
+    </div>
+
+    <div class="hero-bottom">
+      <h1 class="hero-headline">
+        Pages that<br>
+        <span class="line2">convert.</span>
+      </h1>
+      <div class="hero-right-block">
+        <p class="hero-sub">We build clean, high-converting landing pages for creators and sellers. No templates. No fluff. Just pages that make people act.</p>
+        <button class="hero-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          Start a project
+          <span class="hero-cta-arrow"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      Landing Pages <span class="marquee-dot"></span> Course Sellers <span class="marquee-dot"></span> Creators <span class="marquee-dot"></span> Coaches <span class="marquee-dot"></span> Digital Products <span class="marquee-dot"></span> 48hr Delivery <span class="marquee-dot"></span> Mobile First <span class="marquee-dot"></span> Built to Convert &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Landing Pages <span class="marquee-dot"></span> Course Sellers <span class="marquee-dot"></span> Creators <span class="marquee-dot"></span> Coaches <span class="marquee-dot"></span> Digital Products <span class="marquee-dot"></span> 48hr Delivery <span class="marquee-dot"></span> Mobile First <span class="marquee-dot"></span> Built to Convert &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section class="section" id="work">
+    <div class="section-label">Selected work</div>
+    <div class="work-grid">
+      <div class="work-item">
+        <div class="work-item-bg"></div>
+        <div class="work-item-inner">
+          <div class="work-num">001</div>
+          <div class="work-title">Apex Academy</div>
+          <div class="work-type">Course seller — Dark luxury</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-item-bg"></div>
+        <div class="work-item-inner">
+          <div class="work-num">002</div>
+          <div class="work-title">RAWSKILL</div>
+          <div class="work-type">Education platform — Brutalist</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-item-bg"></div>
+        <div class="work-item-inner">
+          <div class="work-num">003</div>
+          <div class="work-title">Bloompath</div>
+          <div class="work-type">Learning platform — Organic</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services-section" id="services">
+    <div class="services-header">
+      <h2 class="services-headline">What we <em>build</em> for you.</h2>
+      <div class="services-desc">
+        <p>Every page is built from scratch, designed for your audience, and delivered fast. No page builders. No templates. Pure code.</p>
+        <a href="#contact" class="services-link">Start a project →</a>
+      </div>
+    </div>
+    <div class="services-list">
+      <div class="service-row">
+        <div class="service-left">
+          <span class="service-num">01</span>
+          <span class="service-name">Starter Page</span>
+        </div>
+        <div class="service-right">
+          <span class="service-price">₹3,000 — ₹5,000</span>
+          <div class="service-arrow"></div>
+        </div>
+      </div>
+      <div class="service-row">
+        <div class="service-left">
+          <span class="service-num">02</span>
+          <span class="service-name">Pro Landing Page</span>
+        </div>
+        <div class="service-right">
+          <span class="service-price">₹5,000 — ₹8,000</span>
+          <div class="service-arrow"></div>
+        </div>
+      </div>
+      <div class="service-row">
+        <div class="service-left">
+          <span class="service-num">03</span>
+          <span class="service-name">Full Brand Page</span>
+        </div>
+        <div class="service-right">
+          <span class="service-price">₹8,000 — ₹15,000</span>
+          <div class="service-arrow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process-section" id="process">
+    <div class="section-label">How it works</div>
+    <div class="process-grid">
+      <div class="process-item">
+        <div class="process-step">Step 01</div>
+        <div class="process-title">You DM us</div>
+        <p class="process-desc">Tell us about your product, your audience, and what you want your page to do. Takes 5 minutes.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-step">Step 02</div>
+        <div class="process-title">We send a brief</div>
+        <p class="process-desc">We send you a simple form. Colors, tone, references, goal. You fill it. We handle the rest.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-step">Step 03</div>
+        <div class="process-title">We build</div>
+        <p class="process-desc">Pure code. No templates. Your page is designed and built from scratch in 48 hours.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-step">Step 04</div>
+        <div class="process-title">You go live</div>
+        <p class="process-desc">We deliver the files plus a live link. One revision round included. You own everything.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="cta-bg"></div>
+    <h2 class="cta-headline">
+      Ready to get<br>
+      <span>a page that works?</span>
+    </h2>
+    <a href="https://instagram.com/onyx.builds" target="_blank">
+      <button class="cta-btn">DM us on Instagram</button>
+    </a>
+  </section>
+
+  <footer>
+    <div class="footer-logo">ONYX</div>
+    <ul class="footer-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="https://instagram.com/onyx.builds" target="_blank">Instagram</a></li>
+    </ul>
+    <p>© 2026 ONYX. Pages that convert.</p>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    document.querySelectorAll('a, button, .work-item, .service-row').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Counter animation
+    const counter = document.getElementById('counter');
+    let count = 0;
+    const target = 24;
+    const duration = 1800;
+    const step = target / (duration / 16);
+
+    const animate = () => {
+      count += step;
+      if (count < target) {
+        counter.textContent = Math.floor(count);
+        requestAnimationFrame(animate);
+      } else {
+        counter.textContent = target;
+      }
+    };
+
+    setTimeout(animate, 600);
+  </script>
+
+</body>
+</html>
