@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0a;
+      color: #f0ece4;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    .lp-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 60px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
+    }
+
+    .lp-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #f0ece4;
+    }
+
+    .lp-logo span { color: #c8a96e; }
+
+    .lp-nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .lp-nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(240,236,228,0.55);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .lp-nav-links a:hover { color: #f0ece4; }
+
+    .lp-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .lp-hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: #f0ece4;
+      transition: all 0.3s;
+    }
+
+    .lp-hero {
+      padding: 110px 60px 90px;
+      max-width: 960px;
+    }
+
+    .lp-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c8a96e;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lp-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: #c8a96e;
+      opacity: 0.6;
+    }
+
+    .lp-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 6vw, 82px);
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: -2px;
+      color: #f0ece4;
+      margin-bottom: 24px;
+    }
+
+    .lp-headline em {
+      font-style: italic;
+      color: #c8a96e;
+    }
+
+    .lp-subheadline {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(240,236,228,0.6);
+      max-width: 540px;
+      margin-bottom: 48px;
+    }
+
+    .lp-cta {
+      display: inline-block;
+      padding: 17px 44px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #0a0a0a;
+      background: #c8a96e;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.15s ease;
+    }
+
+    .lp-cta:hover {
+      background: #f0ece4;
+      transform: translateY(-2px);
+    }
+
+    .lp-cta:active { transform: translateY(0); }
+
+    .lp-divider {
+      margin: 0 60px;
+      border: none;
+      border-top: 0.5px solid rgba(255,255,255,0.08);
+    }
+
+    .lp-cards-section {
+      padding: 90px 60px 110px;
+    }
+
+    .lp-cards-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(240,236,228,0.35);
+      margin-bottom: 48px;
+    }
+
+    .lp-cards {
+      display: flex;
+      gap: 24px;
+    }
+
+    .lp-card {
+      flex: 1;
+      border: 0.5px solid rgba(255,255,255,0.1);
+      padding: 40px 36px;
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.3s ease, transform 0.25s ease, background 0.3s ease;
+    }
+
+    .lp-card:hover {
+      border-color: rgba(200,169,110,0.5);
+      transform: translateY(-4px);
+      background: rgba(200,169,110,0.04);
+    }
+
+    .lp-card-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #c8a96e;
+      margin-bottom: 32px;
+      opacity: 0.7;
+    }
+
+    .lp-card-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 24px;
+    }
+
+    .lp-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #f0ece4;
+      margin-bottom: 14px;
+    }
+
+    .lp-card p {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(240,236,228,0.5);
+      margin-bottom: 28px;
+    }
+
+    .lp-card-link {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c8a96e;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: gap 0.2s ease;
+    }
+
+    .lp-card:hover .lp-card-link { gap: 14px; }
+
+    .lp-footer {
+      padding: 32px 60px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .lp-footer p {
+      font-size: 12px;
+      color: rgba(240,236,228,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .lp-nav { padding: 20px 24px; position: relative; }
+      .lp-hamburger { display: flex; }
+      .lp-nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #0f0f0f;
+        border-bottom: 0.5px solid rgba(255,255,255,0.08);
+        z-index: 100;
+      }
+      .lp-nav-links.open { display: flex; }
+      .lp-nav-links li a { display: block; padding: 16px 24px; border-top: 0.5px solid rgba(255,255,255,0.06); font-size: 14px; }
+      .lp-hero { padding: 60px 24px 56px; }
+      .lp-headline { letter-spacing: -1px; }
+      .lp-subheadline { font-size: 16px; }
+      .lp-cta { width: 100%; text-align: center; padding: 18px 24px; }
+      .lp-divider { margin: 0 24px; }
+      .lp-cards-section { padding: 56px 24px 72px; }
+      .lp-cards { flex-direction: column; gap: 16px; }
+      .lp-card { padding: 32px 28px; }
+      .lp-footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="lp-nav">
+    <div class="lp-logo">Apex<span>.</span>Academy</div>
+    <button class="lp-hamburger" onclick="this.parentElement.querySelector('.lp-nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="lp-nav-links">
+      <li><a href="#">Courses</a></li>
+      <li><a href="#">Results</a></li>
+      <li><a href="#">Mentors</a></li>
+      <li><a href="#">Login</a></li>
+    </ul>
+  </nav>
+
+  <section class="lp-hero">
+    <div class="lp-eyebrow">The premier learning platform</div>
+    <h1 class="lp-headline">Master skills that<br><em>actually</em> pay.</h1>
+    <p class="lp-subheadline">No fluff. No theory. Real-world courses built by operators who've done it — so you can compress years of trial and error into months.</p>
+    <button class="lp-cta">Explore All Courses</button>
+  </section>
+
+  <hr class="lp-divider">
+
+  <section class="lp-cards-section">
+    <p class="lp-cards-label">What sets us apart</p>
+    <div class="lp-cards">
+      <div class="lp-card">
+        <div class="lp-card-num">01</div>
+        <svg class="lp-card-icon" viewBox="0 0 40 40" fill="none">
+          <rect x="4" y="10" width="28" height="20" rx="2" stroke="#c8a96e" stroke-width="1.2" stroke-opacity="0.7"/>
+          <path d="M16 17 L24 20 L16 23 Z" fill="#c8a96e" fill-opacity="0.7"/>
+          <circle cx="32" cy="10" r="6" fill="#0a0a0a" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.5"/>
+          <path d="M30 10 L32 12 L35 8" stroke="#c8a96e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>Practitioner-led curriculum</h3>
+        <p>Every lesson is built by someone who's generated real results in the field — not academics who teach what they've never done.</p>
+        <a href="#" class="lp-card-link">Learn more →</a>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card-num">02</div>
+        <svg class="lp-card-icon" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="15" r="7" stroke="#c8a96e" stroke-width="1.2" stroke-opacity="0.7"/>
+          <path d="M8 34 C8 27 32 27 32 34" stroke="#c8a96e" stroke-width="1.2" stroke-linecap="round" stroke-opacity="0.7"/>
+          <circle cx="32" cy="10" r="5" fill="#0a0a0a" stroke="#c8a96e" stroke-width="1" stroke-opacity="0.4"/>
+          <path d="M30 10 H34 M32 8 V12" stroke="#c8a96e" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+        <h3>Direct mentor access</h3>
+        <p>Submit your work, get personal feedback, and join live sessions. Your progress is tracked — not just your purchase.</p>
+        <a href="#" class="lp-card-link">Learn more →</a>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card-num">03</div>
+        <svg class="lp-card-icon" viewBox="0 0 40 40" fill="none">
+          <path d="M8 30 L14 20 L20 24 L26 12 L32 18" stroke="#c8a96e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.7"/>
+          <circle cx="32" cy="18" r="3" fill="#c8a96e" fill-opacity="0.5"/>
+          <path d="M8 34 H32" stroke="#c8a96e" stroke-width="0.8" stroke-opacity="0.3"/>
+        </svg>
+        <h3>Measurable outcomes</h3>
+        <p>We track student results publicly. See income milestones, skill benchmarks, and portfolio wins from the community before you enroll.</p>
+        <a href="#" class="lp-card-link">Learn more →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lp-footer">
+    <p>© 2026 Apex Academy. All rights reserved.</p>
+    <p>Built for builders.</p>
+  </footer>
+
+</body>
+</html>
