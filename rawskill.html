@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAWSKILL — Learn Hard Things</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0d0d0d;
+      --white: #f5f2ed;
+      --red: #e8230a;
+      --yellow: #f5e642;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'IBM Plex Sans', sans-serif;
+      min-height: 100vh;
+      cursor: crosshair;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      border-bottom: 3px solid var(--black);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      padding: 18px 32px;
+      border-right: 3px solid var(--black);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--red);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .nav-links { display: flex; list-style: none; }
+
+    .nav-links li a {
+      display: block;
+      padding: 18px 28px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--black);
+      border-left: 1.5px solid rgba(13,13,13,0.12);
+      transition: background 0.15s;
+    }
+
+    .nav-links li a:hover { background: var(--yellow); }
+
+    .nav-enroll {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 18px 32px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      cursor: crosshair;
+      border-left: 3px solid var(--black);
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-enroll:hover { background: var(--red); }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: crosshair;
+      padding: 18px 24px;
+      align-items: center;
+      gap: 6px;
+      flex-direction: column;
+      border-left: 3px solid var(--black);
+    }
+
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); }
+
+    .ticker {
+      overflow: hidden;
+      border-bottom: 2px solid var(--black);
+      background: var(--yellow);
+      padding: 10px 0;
+      white-space: nowrap;
+    }
+
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 18s linear infinite;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      border-bottom: 3px solid var(--black);
+      min-height: 480px;
+    }
+
+    .hero-left {
+      padding: 64px 56px;
+      border-right: 3px solid var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-tag::before { content: '▶'; font-size: 8px; }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 9vw, 130px);
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      color: var(--black);
+      margin-bottom: 40px;
+    }
+
+    h1 .accent { color: var(--red); }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(13,13,13,0.65);
+      max-width: 460px;
+      margin-bottom: 48px;
+    }
+
+    .cta-row { display: flex; align-items: center; gap: 24px; }
+
+    .cta-primary {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 18px 40px;
+      background: var(--black);
+      color: var(--white);
+      border: 3px solid var(--black);
+      cursor: crosshair;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cta-primary:hover { background: var(--red); border-color: var(--red); }
+
+    .cta-secondary {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .cta-secondary:hover { color: var(--red); border-color: var(--red); }
+
+    .hero-right { display: flex; flex-direction: column; }
+
+    .stat-block {
+      flex: 1;
+      padding: 40px 36px;
+      border-bottom: 2px solid var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .stat-block:last-child { border-bottom: none; }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px;
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .stat-num.red { color: var(--red); }
+
+    .stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.5);
+      margin-top: 6px;
+    }
+
+    .cards-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 36px 56px 0;
+      margin-bottom: 32px;
+    }
+
+    .cards-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      letter-spacing: 0.02em;
+      color: var(--black);
+    }
+
+    .cards-header span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.4);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 3px solid var(--black);
+    }
+
+    .card {
+      padding: 48px 40px;
+      border-right: 2px solid var(--black);
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .card:last-child { border-right: none; }
+    .card:hover { background: var(--yellow); }
+
+    .card-index {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 80px;
+      line-height: 1;
+      color: rgba(13,13,13,0.07);
+      position: absolute;
+      top: 16px;
+      right: 24px;
+    }
+
+    .card-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 0.02em;
+      color: var(--black);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .card p {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(13,13,13,0.6);
+      margin-bottom: 32px;
+    }
+
+    .card-link {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 2px;
+    }
+
+    footer {
+      border-top: 3px solid var(--black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 56px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.4);
+    }
+
+    footer .footer-mark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      color: var(--black);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+      nav { flex-wrap: wrap; }
+      .nav-logo { border-right: none; flex: 1; }
+      .hamburger { display: flex; }
+      .nav-links { display: none; flex-direction: column; width: 100%; border-top: 2px solid var(--black); }
+      .nav-links.open { display: flex; }
+      .nav-links li a { border-left: none; border-top: 1px solid rgba(13,13,13,0.12); padding: 16px 32px; }
+      .nav-enroll { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 48px 24px; border-right: none; border-bottom: 3px solid var(--black); }
+      .hero-right { flex-direction: row; }
+      .stat-block { border-bottom: none; border-right: 2px solid var(--black); padding: 28px 20px; }
+      .stat-block:last-child { border-right: none; }
+      .stat-num { font-size: 48px; }
+      .cta-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .cta-primary { width: 100%; text-align: center; }
+      .cards-header { padding: 32px 24px 0; }
+      .cards-header h2 { font-size: 36px; }
+      .cards { grid-template-columns: 1fr; }
+      .card { border-right: none; border-bottom: 2px solid var(--black); padding: 36px 24px; }
+      .card:last-child { border-bottom: none; }
+      footer { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo"><span class="nav-logo-dot"></span> RAWSKILL</div>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#">Tracks</a></li>
+      <li><a href="#">Proof</a></li>
+      <li><a href="#">Community</a></li>
+      <li><a href="#">Pricing</a></li>
+    </ul>
+    <button class="nav-enroll">Enroll Now</button>
+  </nav>
+
+  <div class="ticker">
+    <span class="ticker-inner">
+      ◆ NO FLUFF &nbsp;&nbsp;&nbsp; ◆ NO CERTIFICATES &nbsp;&nbsp;&nbsp; ◆ JUST SKILLS &nbsp;&nbsp;&nbsp; ◆ BUILD OR DIE &nbsp;&nbsp;&nbsp; ◆ 12,400 STUDENTS &nbsp;&nbsp;&nbsp; ◆ 94% COMPLETION RATE &nbsp;&nbsp;&nbsp; ◆ REAL PROJECTS &nbsp;&nbsp;&nbsp; ◆ NO FLUFF &nbsp;&nbsp;&nbsp; ◆ NO CERTIFICATES &nbsp;&nbsp;&nbsp; ◆ JUST SKILLS &nbsp;&nbsp;&nbsp; ◆ BUILD OR DIE &nbsp;&nbsp;&nbsp; ◆ 12,400 STUDENTS &nbsp;&nbsp;&nbsp; ◆ 94% COMPLETION RATE &nbsp;&nbsp;&nbsp; ◆ REAL PROJECTS &nbsp;&nbsp;&nbsp;
+    </span>
+  </div>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div>
+        <div class="hero-tag">Online education, reconstructed</div>
+        <h1>LEARN<br>HARD<br><span class="accent">THINGS.</span></h1>
+        <p class="hero-sub">Stop watching 40-hour courses you never finish. RAWSKILL gives you brutal, focused modules built around one outcome — shipping real work.</p>
+        <div class="cta-row">
+          <button class="cta-primary">Start Learning</button>
+          <a href="#" class="cta-secondary">See all tracks →</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-block">
+        <div class="stat-num red">42</div>
+        <div class="stat-label">Hours avg. to complete</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">$0</div>
+        <div class="stat-label">Fluff. Zero.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Outcome per track</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cards-header">
+    <h2>Three Pillars</h2>
+    <span>What we're about</span>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-index">1</div>
+      <div class="card-tag">▶ Curriculum</div>
+      <h3>Brutal Brevity</h3>
+      <p>Every lesson is under 12 minutes. Every module ships something. If it doesn't move the needle, it's not in the track.</p>
+      <a href="#" class="card-link">Explore tracks</a>
+    </div>
+    <div class="card">
+      <div class="card-index">2</div>
+      <div class="card-tag">▶ Community</div>
+      <h3>Build In Public</h3>
+      <p>Share your work. Get ruthless feedback. The community is full of people actually doing — not just learning about doing.</p>
+      <a href="#" class="card-link">See the feed</a>
+    </div>
+    <div class="card">
+      <div class="card-index">3</div>
+      <div class="card-tag">▶ Results</div>
+      <h3>Show, Don't Tell</h3>
+      <p>Every track has a public results board. See what real students built, earned, or launched — before you spend a cent.</p>
+      <a href="#" class="card-link">View results</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 RAWSKILL — All rights reserved</p>
+    <div class="footer-mark">RS</div>
+    <p>Education without excuses</p>
+  </footer>
+
+</body>
+</html>
